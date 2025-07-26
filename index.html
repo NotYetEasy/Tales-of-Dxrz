@@ -34,6 +34,8 @@
 
         body {
             background-color: var(--bg-color);
+            overflow: hidden;
+            /* Prevents scrolling on the main page */
             color: var(--text-color);
             font-family: var(--font-secondary);
             line-height: 1.6;
@@ -44,11 +46,12 @@
         /* --- Hero Section --- */
         .hero {
             height: 100vh;
+            /* Set the width to 200% */
+            width: 200%;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 2rem;
+            transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+            /* Smoother transition */
+            transform: translateX(0);
             position: relative;
             /* Updated background image as requested */
             background-image: url('https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&q=80');
@@ -57,6 +60,7 @@
             background-attachment: fixed;
             /* Simple and performant parallax effect */
         }
+
 
         .hero::before {
             content: '';
@@ -69,10 +73,24 @@
             /* Dark overlay for text readability */
         }
 
+        .hero>div {
+            width: 50%;
+            /* Each direct child (hero-content and content-list) takes up 50% */
+            flex-shrink: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
         .hero-content {
             position: relative;
             /* To ensure it's above the overlay */
             z-index: 1;
+            /* This panel is transparent to show the hero background */
         }
 
         .hero h1 {
@@ -93,21 +111,75 @@
 
         /* --- Main Content List --- */
         .content-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
+            background-color: var(--bg-color);
+            /* Solid background for the chapter list */
+            overflow-y: auto;
+            /* Allow scrolling within the chapter list */
+            justify-content: flex-start;
+            /* Align content to the top */
             padding: 4rem 2rem;
             max-width: 800px;
-            margin: 0 auto;
+            width: 100% !important;
+            /* Override the .hero > div width to use max-width */
+            position: relative;
+            /* For positioning the back button */
+        }
+
+        .volume-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            width: 100%;
+        }
+
+        .volume-btn {
+            background-color: #222a2e;
+            /* Same as card bg */
+            color: #888;
+            /* Dimmed color for inactive */
+            font-family: var(--font-primary);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 15px;
+            /* Same as card radius */
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .volume-btn:hover {
+            background-color: #3a454b;
+            color: var(--text-color);
+        }
+
+        .volume-btn.active {
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .chapters-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            /* This adds space between the cards */
+            width: 100%;
         }
 
         .card {
+            width: 100%;
+            /* Make cards wider to fill the container */
+            height: auto;
+            margin: 0;
+
             /* Animation properties for JS */
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
+            /* Added delay */
             background-color: #222a2e;
-            padding: 2rem;
+            padding: 1.5rem 2rem;
+            /* Reduced vertical padding to make them smaller */
             border-radius: 15px;
         }
 
@@ -125,7 +197,7 @@
 
         .card p {
             font-size: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .btn {
@@ -142,46 +214,113 @@
             border-radius: 25px;
         }
 
-        .btn:hover {
+        .btn:hover,
+        .back-btn:hover {
             background-color: #5a6c75;
             /* A slightly lighter shade for hover */
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-family: var(--font-primary);
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
         }
     </style>
 </head>
 
 <body>
-
     <header class="hero">
         <div class="hero-content">
             <h1>The Tales of Dxrz</h1>
             <p>The journey of Dxrz, and where the world goes.</p>
+            <a href="#" id="readButton" class="btn">Read</a>
         </div>
+        <section class="content-list">
+            <a href="#" id="backButton" class="back-btn">&larr; Back</a>
+            <div class="volume-selector">
+                <a href="#" class="volume-btn active" data-volume="1">Volume I</a>
+                <a href="#" class="volume-btn" data-volume="2">Volume II</a>
+            </div>
+            <div class="chapters-wrapper" id="volume-1">
+                <article class="card">
+                    <h2>CHAPTER I</h2>
+                    <p>The rustling leaves whisper secrets of the ancient woods, a language understood only by those who
+                        listen with their soul.</p>
+                    <a href="volume1/chapter1.html" class="btn">READ</a>
+                </article>
+                <article class="card">
+                    <h2>CHAPTER II</h2>
+                    <p>Under the vast, star-dusted canvas of the night sky, the world feels both infinite and intimately
+                        close.</p>
+                    <a href="volume1/chapter2.html" class="btn">READ</a>
+                </article>
+                <article class="card">
+                    <h2>CHAPTER III</h2>
+                    <p>Dawn breaks, painting the horizon with hues of fire and gold, promising a new day of discovery
+                        and
+                        wonder.</p>
+                    <a href="volume1/chapter3.html" class="btn">READ</a>
+                </article>
+            </div>
+            <div class="chapters-wrapper" id="volume-2" style="display: none;">
+                <article class="card">
+                    <h2>CHAPTER IV</h2>
+                    <p>A new journey begins under a different moon, where echoes of the past meet shadows of the
+                        future.</p>
+                    <a href="volume2/chapter4.html" class="btn">READ</a>
+                </article>
+                <article class="card">
+                    <h2>CHAPTER IV</h2>
+                    <p>The city of glass hummed with a silent energy, its towers piercing the clouds like shards of a
+                        broken star.</p>
+                    <a href="volume2/chapter5.html" class="btn">READ</a>
+                </article>
+            </div>
+        </section>
     </header>
 
-    <main>
-        <section class="content-list">
-            <article class="card">
-                <h2>CHAPTER I</h2>
-                <p>The rustling leaves whisper secrets of the ancient woods, a language understood only by those who
-                    listen with their soul.</p>
-                <a href="#" class="btn">READ</a>
-            </article>
-            <article class="card">
-                <h2>CHAPTER II</h2>
-                <p>Under the vast, star-dusted canvas of the night sky, the world feels both infinite and intimately
-                    close.</p>
-                <a href="#" class="btn">READ</a>
-            </article>
-            <article class="card">
-                <h2>CHAPTER III</h2>
-                <p>Dawn breaks, painting the horizon with hues of fire and gold, promising a new day of discovery and
-                    wonder.</p>
-                <a href="#" class="btn">READ</a>
-            </article>
-        </section>
-    </main>
 
     <script>
+        const hero = document.querySelector('.hero');
+        const readButton = document.getElementById('readButton');
+        const backButton = document.getElementById('backButton');
+        const volumeButtons = document.querySelectorAll('.volume-btn');
+        const chapterContainers = document.querySelectorAll('.chapters-wrapper');
+
+        readButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            hero.style.transform = 'translateX(-50%)';
+        });
+
+        backButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            hero.style.transform = 'translateX(0)';
+        });
+
+        volumeButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const targetVolumeId = `volume-${e.target.dataset.volume}`;
+
+                // Update active state on buttons
+                volumeButtons.forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                // Show the correct chapter container
+                chapterContainers.forEach(container => {
+                    container.style.display = container.id === targetVolumeId ? 'flex' : 'none';
+                });
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.card');
 
