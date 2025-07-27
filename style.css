@@ -1,96 +1,11 @@
-/* ==========================================================================
-   THE TALES OF DXRZ - MAIN STYLESHEET
-   
-   A comprehensive stylesheet for the Tales of Dxrz web experience.
-   This file contains all styling for the main landing page and chapter
-   listing pages, organized into logical sections for maintainability.
-   
-   Author: Generated for Tales of Dxrz
-   ========================================================================== */
-
-/* ==========================================================================
-   CSS CUSTOM PROPERTIES & CONFIGURATION
-   
-   Global design tokens including colors, fonts, and reusable values.
-   These variables ensure consistency across the entire design system.
-   ========================================================================== */
-
+/* 🌟 General Setup & Variables 🌟 */
 :root {
-    /* Nord Color Palette - GitHub Nord Theme */
-    --nord0: #2e3440;
-    /* Polar Night - darkest */
-    --nord1: #3b4252;
-    /* Polar Night */
-    --nord2: #434c5e;
-    /* Polar Night */
-    --nord3: #4c566a;
-    /* Polar Night - lightest */
-    --nord4: #d8dee9;
-    /* Snow Storm - darkest */
-    --nord5: #e5e9f0;
-    /* Snow Storm */
-    --nord6: #eceff4;
-    /* Snow Storm - lightest */
-    --nord7: #8fbcbb;
-    /* Frost - teal */
-    --nord8: #88c0d0;
-    /* Frost - light blue */
-    --nord9: #81a1c1;
-    /* Frost - blue */
-    --nord10: #5e81ac;
-    /* Frost - dark blue */
-    --nord11: #bf616a;
-    /* Aurora - red */
-    --nord12: #d08770;
-    /* Aurora - orange */
-    --nord13: #ebcb8b;
-    /* Aurora - yellow */
-    --nord14: #a3be8c;
-    /* Aurora - green */
-    --nord15: #b48ead;
-    /* Aurora - purple */
-
-    /* Semantic Color Assignments */
-    --bg-color: var(--nord0);
-    /* Primary dark background */
-    --text-color: var(--nord6);
-    /* Primary light text color */
-    --button-bg: var(--nord10);
-    /* Interactive element background */
-    --card-bg: var(--nord1);
-    /* Card background */
-    --accent-color: var(--nord8);
-    /* Accent color for highlights */
-    --hover-color: var(--nord9);
-    /* Hover state color */
-
-    /* Typography System */
+    --bg-color: #15191b;
+    --text-color: #eaeff2;
+    --button-bg: #46545c;
     --font-primary: 'Space Mono', monospace;
-    /* Headers and UI elements */
     --font-secondary: 'Source Serif 4', serif;
-    /* Body text and descriptions */
-
-    /* Layout & Spacing */
-    --container-max-width: 800px;
-    --card-border-radius: 15px;
-    --button-border-radius: 25px;
-    --section-padding: 2rem;
-
-    /* Animation & Transitions */
-    --transition-smooth: 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-    --transition-fast: 0.3s ease;
-    --transition-fade: 0.4s ease-in-out;
-    --card-animation-delay: 0.2s;
-    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-    /* EaseOutExpo for smooth transitions */
 }
-
-/* ==========================================================================
-   RESET & BASE STYLES
-   
-   Modern CSS reset and foundational styles that ensure consistent
-   rendering across different browsers and devices.
-   ========================================================================== */
 
 *,
 *::before,
@@ -106,26 +21,65 @@ html {
 
 body {
     background-color: var(--bg-color);
+    overflow: hidden;
+    /* Prevents scrolling on the main page */
     color: var(--text-color);
     font-family: var(--font-secondary);
     line-height: 1.6;
-
-    /* Font rendering optimization */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
-    /* Prevents scrolling on the main page */
-    overflow: hidden;
 }
 
-/* ==========================================================================
-   TYPOGRAPHY
-   
-   Text styling and hierarchy for headings, paragraphs, and special text
-   elements throughout the application.
-   ========================================================================== */
+/* 🏞️ Hero Section 🏞️ */
+.hero {
+    height: 100vh;
+    /* Set the width to 200% */
+    width: 200%;
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+    /* Smoother transition */
+    transform: translateX(0);
+    position: relative;
+    /* Updated background image as requested */
+    background-image: url('https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Simple and performant parallax effect */
+}
 
-/* Main hero title styling */
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(21, 25, 27, 0.5);
+    /* Dark overlay for text readability */
+}
+
+.hero>div {
+    width: 50%;
+    /* Each direct child (hero-content and content-list) takes up 50% */
+    flex-shrink: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.hero-content {
+    position: relative;
+    /* To ensure it's above the overlay */
+    z-index: 1;
+    /* This panel is transparent to show the hero background */
+}
+
 .hero h1 {
     font-family: var(--font-primary);
     font-weight: 700;
@@ -135,7 +89,6 @@ body {
     text-transform: uppercase;
 }
 
-/* Hero subtitle and general paragraph styling */
 .hero p {
     font-family: var(--font-secondary);
     font-size: clamp(1rem, 3vw, 1.5rem);
@@ -143,143 +96,21 @@ body {
     margin: 0 auto;
 }
 
-/* Chapter card headings */
-.card h2 {
-    font-family: var(--font-primary);
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-/* Chapter card descriptions */
-.card p {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-/* ==========================================================================
-   HERO SECTION & SLIDING ANIMATION SYSTEM
-   
-   The main hero section with background image and sliding panel animation.
-   This creates the primary visual impact and navigation mechanism.
-   ========================================================================== */
-
-.hero {
-    height: 100vh;
-    width: 200%;
-    /* Double width to accommodate sliding panels */
-    display: flex;
-    position: relative;
-
-    /* Smooth sliding transition with fade effect */
-    transition: transform var(--ease-out-expo), opacity var(--transition-fade);
-    transform: translateX(0);
-
-    /* Nord-themed gradient background */
-    background: linear-gradient(135deg,
-            var(--nord0) 0%,
-            var(--nord1) 25%,
-            var(--nord2) 50%,
-            var(--nord3) 75%,
-            var(--nord10) 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-}
-
-/* Animated gradient background */
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-/* Subtle overlay for enhanced text readability */
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg,
-            rgba(46, 52, 64, 0.3) 0%,
-            rgba(59, 66, 82, 0.2) 50%,
-            rgba(76, 86, 106, 0.1) 100%);
-    transition: opacity var(--transition-fade);
-}
-
-/* Hero panel layout - each panel takes 50% of the hero width */
-.hero>div {
-    width: 50%;
-    flex-shrink: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: var(--section-padding);
-    text-align: center;
-}
-
-/* Left panel - main hero content */
-.hero-content {
-    position: relative;
-    z-index: 1;
-    /* Ensures content appears above the overlay */
-
-    /* Fade-in animation */
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeInUp 1.2s ease-out 0.5s forwards;
-}
-
-/* Fade-in animation keyframes */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ==========================================================================
-   CONTENT LIST PANEL
-   
-   The right sliding panel that contains the chapter navigation and listings.
-   This panel slides into view when the user clicks "Read".
-   ========================================================================== */
-
+/* 📜 Main Content List 📜 */
 .content-list {
     background-color: var(--bg-color);
+    /* Solid background for the chapter list */
     overflow-y: auto;
-    /* Allows scrolling within the chapter list */
+    /* Allow scrolling within the chapter list */
     justify-content: flex-start;
-    padding: 4rem var(--section-padding);
-    max-width: var(--container-max-width);
+    /* Align content to the top */
+    padding: 4rem 2rem;
+    max-width: 800px;
     width: 100% !important;
-    /* Override the .hero > div width */
+    /* Override the .hero > div width to use max-width */
     position: relative;
     /* For positioning the back button */
 }
-
-/* ==========================================================================
-   VOLUME SELECTOR & NAVIGATION
-   
-   Tab-style navigation system for switching between different volumes
-   of chapters. Includes active states and smooth transitions.
-   ========================================================================== */
 
 .volume-selector {
     display: flex;
@@ -290,85 +121,72 @@ body {
 }
 
 .volume-btn {
-    background-color: var(--nord2);
-    color: var(--nord4);
-    /* Dimmed color for inactive state */
+    background-color: #222a2e;
+    /* Same as card bg */
+    color: #888;
+    /* Dimmed color for inactive */
     font-family: var(--font-primary);
     text-decoration: none;
     padding: 0.75rem 1.5rem;
-    border-radius: var(--card-border-radius);
-    transition: all var(--transition-fast), opacity var(--transition-fade);
+    border-radius: 15px;
+    /* Same as card radius */
+    transition: all 0.3s ease;
     font-size: 1rem;
-    opacity: 0.8;
 }
 
 .volume-btn:hover {
-    background-color: var(--nord3);
+    background-color: #3a454b;
     color: var(--text-color);
-    opacity: 1;
-    transform: translateY(-2px);
 }
 
 .volume-btn.active {
     background-color: var(--button-bg);
     color: var(--text-color);
     font-weight: 700;
-    opacity: 1;
-    box-shadow: 0 4px 12px rgba(94, 129, 172, 0.3);
 }
-
-/* ==========================================================================
-   CHAPTER CARDS & CONTENT LAYOUT
-   
-   Individual chapter cards with descriptions and read buttons.
-   Includes animation properties for intersection observer effects.
-   ========================================================================== */
 
 .chapters-wrapper {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    /* Spacing between cards */
+    /* This adds space between the cards */
     width: 100%;
 }
 
 .card {
     width: 100%;
+    /* Make cards wider to fill the container */
     height: auto;
     margin: 0;
-    background-color: var(--card-bg);
-    padding: 1.5rem 2rem;
-    border-radius: var(--card-border-radius);
-    border: 1px solid var(--nord2);
 
-    /* Animation properties for JavaScript intersection observer with fade */
+    /* Animation properties for JS */
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.6s ease-out var(--card-animation-delay),
-        transform 0.6s ease-out var(--card-animation-delay),
-        background-color var(--transition-fade),
-        border-color var(--transition-fade);
+    transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
+    /* Added delay */
+    background-color: #222a2e;
+    padding: 1.5rem 2rem;
+    /* Reduced vertical padding to make them smaller */
+    border-radius: 15px;
 }
 
-.card:hover {
-    background-color: var(--nord2);
-    border-color: var(--nord3);
-}
-
-/* Visible state for animated cards */
 .card.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* ==========================================================================
-   BUTTONS & INTERACTIVE ELEMENTS
-   
-   All button styles including primary buttons, navigation buttons,
-   and their various states (hover, active, etc.).
-   ========================================================================== */
+.card h2 {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
 
-/* Primary button style used for "Read" actions */
+.card p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
 .btn {
     display: inline-block;
     background-color: var(--button-bg);
@@ -379,176 +197,25 @@ body {
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     letter-spacing: 0.1em;
-    border-radius: var(--button-border-radius);
-    transition: all var(--transition-fast);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    border-radius: 25px;
 }
 
 .btn:hover,
 .back-btn:hover {
-    background-color: var(--hover-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(129, 161, 193, 0.3);
+    background-color: #5a6c75;
+    /* A slightly lighter shade for hover */
 }
 
-/* Back button - positioned absolutely in the content panel */
 .back-btn {
     position: absolute;
-    top: var(--section-padding);
-    left: var(--section-padding);
+    top: 2rem;
+    left: 2rem;
     font-family: var(--font-primary);
     color: var(--text-color);
     text-decoration: none;
     font-size: 1rem;
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    background-color: var(--nord2);
-    transition: all var(--transition-fast);
-    opacity: 0.8;
-}
-
-.back-btn:hover {
-    opacity: 1;
-    background-color: var(--nord3);
-}
-
-/* ==========================================================================
-   RESPONSIVE DESIGN & MEDIA QUERIES
-   
-   Responsive adjustments for different screen sizes to ensure
-   optimal viewing experience across devices.
-   ========================================================================== */
-
-/* Tablet and smaller desktop adjustments */
-@media (max-width: 1024px) {
-    .hero {
-        background-attachment: scroll;
-        /* Disable parallax on smaller screens */
-    }
-
-    .content-list {
-        padding: 3rem 1.5rem;
-    }
-}
-
-/* Mobile device adjustments */
-@media (max-width: 768px) {
-    .hero>div {
-        padding: 1rem;
-    }
-
-    .volume-selector {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .volume-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-    }
-
-    .card {
-        padding: 1rem 1.5rem;
-    }
-
-    .back-btn {
-        top: 1rem;
-        left: 1rem;
-        font-size: 0.875rem;
-        padding: 0.375rem 0.75rem;
-    }
-}
-
-/* Small mobile adjustments */
-@media (max-width: 480px) {
-    .hero h1 {
-        font-size: clamp(1.8rem, 6vw, 3rem);
-    }
-
-    .hero p {
-        font-size: clamp(0.875rem, 2.5vw, 1.2rem);
-    }
-
-    .card h2 {
-        font-size: 1.25rem;
-    }
-
-    .card p {
-        font-size: 0.875rem;
-    }
-}
-
-/* ==========================================================================
-   STANDALONE PAGES STYLING
-   
-   Additional styles for standalone pages like chapters.html that don't
-   use the hero section layout but still need proper styling.
-   ========================================================================== */
-
-/* Standalone content list (for chapters.html) */
-main .content-list {
-    background-color: var(--bg-color);
-    min-height: 100vh;
-    padding: 4rem var(--section-padding);
-    max-width: var(--container-max-width);
-    margin: 0 auto;
-    position: static;
-    /* Override relative positioning */
-}
-
-/* Main heading for standalone pages */
-.content-list h1 {
-    font-family: var(--font-primary);
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 3rem);
-    text-align: center;
-    margin-bottom: 3rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-/* Adjust body overflow for standalone pages */
-main {
-    overflow-y: auto;
-    /* Allow scrolling on standalone pages */
-}
-
-/* Cards in standalone pages should be visible by default */
-main .card {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ==========================================================================
-   UTILITY CLASSES & HELPERS
-   
-   Reusable utility classes for common styling patterns and
-   JavaScript-controlled states.
-   ========================================================================== */
-
-/* Hide elements (used by JavaScript for volume switching) */
-.hidden {
-    display: none !important;
-}
-
-/* Smooth focus styles for accessibility */
-*:focus {
-    outline: 2px solid var(--button-bg);
-    outline-offset: 2px;
-}
-
-/* Reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-
-    html {
-        scroll-behavior: auto;
-    }
+    transition: background-color 0.3s ease;
 }

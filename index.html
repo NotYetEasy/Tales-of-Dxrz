@@ -1,69 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- ==========================================================================
-    HEAD SECTION
-    Contains meta information, title, and links to external resources like
-    fonts and stylesheets.
-    ========================================================================== -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Tales of Dxrz</title>
-    <!-- Google Fonts Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Source Serif 4 and Space Mono fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..24,400&family=Space+Mono:wght@700&display=swap"
         rel="stylesheet">
-    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- ==========================================================================
-    HEADER SECTION - HERO & CONTENT LIST
-    This section acts as a container for the main hero content and the
-    sliding content list, creating a dynamic two-panel layout.
-    ========================================================================== -->
+    <!-- 🌠 Header Section 🌠 -->
     <header class="hero">
-        <!-- Hero Content Panel -->
         <div class="hero-content">
             <h1>The Tales of Dxrz</h1>
             <p>The journey of Dxrz, and where the world goes.</p>
             <a href="#" id="readButton" class="btn">Read</a>
         </div>
-
-        <!-- Content List Panel -->
+        <!-- 📖 Content List Section 📖 -->
         <section class="content-list">
-            <!-- Back Button -->
             <a href="#" id="backButton" class="back-btn">&larr; Back</a>
-
-            <!-- Volume Selector Navigation -->
             <div class="volume-selector">
                 <a href="#" class="volume-btn active" data-volume="1">Volume I</a>
                 <a href="#" class="volume-btn" data-volume="2">Volume II</a>
             </div>
-
-            <!-- Chapters Wrapper for Volume 1 -->
             <div class="chapters-wrapper" id="volume-1">
-                <!-- Chapter 1 Card -->
                 <article class="card">
                     <h2>CHAPTER I</h2>
                     <p>The rustling leaves whisper secrets of the ancient woods, a language understood only by those who
                         listen with their soul.</p>
                     <a href="volume1/chapter1.html" class="btn">READ</a>
                 </article>
-                <!-- Chapter 2 Card -->
                 <article class="card">
                     <h2>CHAPTER II</h2>
                     <p>Under the vast, star-dusted canvas of the night sky, the world feels both infinite and intimately
                         close.</p>
                     <a href="volume1/chapter2.html" class="btn">READ</a>
                 </article>
-                <!-- Chapter 3 Card -->
                 <article class="card">
                     <h2>CHAPTER III</h2>
                     <p>Dawn breaks, painting the horizon with hues of fire and gold, promising a new day of discovery
@@ -72,17 +49,13 @@
                     <a href="volume1/chapter3.html" class="btn">READ</a>
                 </article>
             </div>
-
-            <!-- Chapters Wrapper for Volume 2 (initially hidden) -->
             <div class="chapters-wrapper" id="volume-2" style="display: none;">
-                <!-- Chapter 4 Card -->
                 <article class="card">
                     <h2>CHAPTER IV</h2>
                     <p>A new journey begins under a different moon, where echoes of the past meet shadows of the
                         future.</p>
                     <a href="volume2/chapter4.html" class="btn">READ</a>
                 </article>
-                <!-- Chapter 5 Card -->
                 <article class="card">
                     <h2>CHAPTER IV</h2>
                     <p>The city of glass hummed with a silent energy, its towers piercing the clouds like shards of a
@@ -93,67 +66,56 @@
         </section>
     </header>
 
-    <!-- ==========================================================================
-    JAVASCRIPT SECTION
-    Contains all interactive scripts for the page, including hero sliding
-    animation, volume switching, and card intersection observer.
-    ========================================================================== -->
+    <!-- 🚀 JavaScript for Interactions 🚀 -->
     <script>
-        /* DOM Element Selections */
         const hero = document.querySelector('.hero');
         const readButton = document.getElementById('readButton');
         const backButton = document.getElementById('backButton');
         const volumeButtons = document.querySelectorAll('.volume-btn');
         const chapterContainers = document.querySelectorAll('.chapters-wrapper');
 
-        /* Event Listener for "Read" Button */
         readButton.addEventListener('click', (e) => {
             e.preventDefault();
-            hero.style.transform = 'translateX(-50%)'; // Slide hero to show content list
+            hero.style.transform = 'translateX(-50%)';
         });
 
-        /* Event Listener for "Back" Button */
         backButton.addEventListener('click', (e) => {
             e.preventDefault();
-            hero.style.transform = 'translateX(0)'; // Slide hero back to main content
+            hero.style.transform = 'translateX(0)';
         });
 
-        /* Event Listeners for Volume Selection Buttons */
         volumeButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
 
                 const targetVolumeId = `volume-${e.target.dataset.volume}`;
 
-                // Update active state on volume buttons
+                // Update active state on buttons
                 volumeButtons.forEach(btn => btn.classList.remove('active'));
                 e.target.classList.add('active');
 
-                // Show the correct chapter container and hide others
+                // Show the correct chapter container
                 chapterContainers.forEach(container => {
                     container.style.display = container.id === targetVolumeId ? 'flex' : 'none';
                 });
             });
         });
 
-        /* Intersection Observer for Card Animations */
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.card');
 
-            // Fallback for browsers that don't support IntersectionObserver (show all cards)
+            // Fallback for browsers that don't support IntersectionObserver
             if (!('IntersectionObserver' in window)) {
                 cards.forEach(card => card.classList.add('is-visible'));
                 return;
             }
 
-            // Options for the Intersection Observer
             const observerOptions = {
                 root: null, // relative to the viewport
                 rootMargin: '0px',
                 threshold: 0.1 // trigger when 10% of the element is visible
             };
 
-            // Create a new Intersection Observer instance
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -163,7 +125,6 @@
                 });
             }, observerOptions);
 
-            // Observe each card element
             cards.forEach(card => {
                 observer.observe(card);
             });
