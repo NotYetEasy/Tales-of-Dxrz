@@ -1,0 +1,41 @@
+{
+    "volumes": [
+        {
+            "id": "volume-1",
+            "title": "Volume I: The Whispering Woods",
+            "chapters": [
+                {
+                    "id": "chapter-1",
+                    "title": "Chapter I: The Ancient Path",
+                    "file": "novels/volume1/chapter1.md"
+                },
+                {
+                    "id": "chapter-2",
+                    "title": "Chapter II: Echoes of the Past",
+                    "file": "novels/volume1/chapter2.md"
+                },
+                {
+                    "id": "chapter-3",
+                    "title": "Chapter III: The Hidden Spring",
+                    "file": "novels/volume1/chapter3.md"
+                }
+            ]
+        },
+        {
+            "id": "volume-2",
+            "title": "Volume II: City of Glass",
+            "chapters": [
+                {
+                    "id": "chapter-4",
+                    "title": "Chapter IV: The Crystal Towers",
+                    "file": "novels/volume2/chapter4.md"
+                },
+                {
+                    "id": "chapter-5",
+                    "title": "Chapter V: Beneath the Shards",
+                    "file": "novels/volume2/chapter5.md"
+                }
+            ]
+        }
+    ]
+}

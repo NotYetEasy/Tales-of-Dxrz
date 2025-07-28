@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novel Reader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..24,400&family=Space+Mono:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 📚 Reader Specific Styles 📚 */
+        body {
+            overflow-y: auto;
+            /* Allow scrolling for reader content */
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .reader-container {
+            margin-top: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .reader-container h1,
+        .reader-container h2,
+        .reader-container h3 {
+            font-family: var(--font-primary);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .reader-container p {
+            margin-bottom: 1rem;
+        }
+
+        .back-to-home {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .reader-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #333;
+        }
+
+        .chapter-navigation-top .btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            margin: 0 0.5rem;
+        }
+
+        /* Theme Switch Styles */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: var(--button-bg);
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+        }
+
+        .slider:before {
+            background-color: var(--text-color);
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .slider .icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+            line-height: 1;
+            transition: opacity 0.4s ease;
+        }
+
+        .slider .sun {
+            left: 8px;
+            opacity: 1;
+        }
+
+        .slider .moon {
+            right: 8px;
+            opacity: 0;
+        }
+
+        input:checked+.slider .sun {
+            opacity: 0;
+        }
+
+        input:checked+.slider .moon {
+            opacity: 1;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+    <div class="reader-header">
+        <div class="header-left">
+            <a href="index.html" class="btn back-to-home">← Back to Home</a>
+            <a href="#" id="prev-chapter-top" class="btn" style="display: none;">← Previous Chapter</a>
+        </div>
+        <div class="header-right">
+            <a href="#" id="next-chapter-top" class="btn" style="display: none;">Next Chapter →</a>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round">
+                        <span class="icon sun">☀️</span>
+                        <span class="icon moon">🌙</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- 📖 Reader Content Area 📖 -->
+    <div class="reader-container" id="reader-content">
+        <!-- Markdown content will be loaded here -->
+        Loading chapter...
+    </div>
+
+    <!-- 🚀 Reader JavaScript 🚀 -->
+    <script src="reader.js"></script>
+</body>
+
+</html>
