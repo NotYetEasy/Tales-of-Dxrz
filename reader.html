@@ -125,25 +125,162 @@
             opacity: 1;
         }
     </style>
+    <style>
+        /* 📚 Volume Menu Styles 📚 */
+        .reader-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #333;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            min-width: 200px;
+        }
+
+        .volume-menu-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .volume-menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            font-family: var(--font-primary);
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            white-space: nowrap;
+        }
+
+        .volume-menu-btn:hover {
+            background-color: #5a6c75;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.7em;
+            transition: transform 0.3s ease;
+        }
+
+        .volume-menu-btn.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .volume-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--bg-color);
+            border: 1px solid #333;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            min-width: 250px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 0.5rem;
+        }
+
+        .volume-option {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            text-align: left;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-family: var(--font-secondary);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid #222;
+        }
+
+        .volume-option:last-child {
+            border-bottom: none;
+        }
+
+        .volume-option:hover {
+            background-color: #2a3136;
+        }
+
+        .volume-option.active {
+            background-color: var(--button-bg);
+            font-weight: 700;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .reader-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-left,
+            .header-center,
+            .header-right {
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+
+            .volume-dropdown {
+                left: 0;
+                right: 0;
+                transform: none;
+                width: 100%;
+                max-width: none;
+            }
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
 <body>
     <div class="reader-header">
-        <div class="header-left">
-            <a href="index.html" class="btn">← Back to Home</a>
-            <a href="#" id="prev-chapter-top" class="btn" style="display: none;">← Previous Chapter</a>
+        <div class="volume-menu-wrapper"
+            style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 1000; margin-top: 1rem;">
+            <button id="volume-menu-btn" class="btn volume-menu-btn">
+                <span id="current-volume-title">Loading...</span>
+                <span class="dropdown-arrow">▼</span>
+            </button>
+            <div id="volume-dropdown" class="volume-dropdown" style="display: none;">
+                <!-- Volume options will be populated dynamically -->
+            </div>
         </div>
-        <div class="header-right">
-            <a href="#" id="next-chapter-top" class="btn" style="display: none;">Next Chapter →</a>
-            <div class="theme-switch-wrapper">
-                <label class="theme-switch" for="checkbox">
-                    <input type="checkbox" id="checkbox" />
-                    <div class="slider round">
-                        <span class="icon sun">☀️</span>
-                        <span class="icon moon">🌙</span>
-                    </div>
-                </label>
+        <div class="header-content"
+            style="margin-top: 4rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div class="header-left">
+                <a href="index.html" class="btn">← Back to Home</a>
+                <a href="#" id="prev-chapter-top" class="btn" style="display: none;">← Previous Chapter</a>
+            </div>
+            <div class="header-right">
+                <a href="#" id="next-chapter-top" class="btn" style="display: none;">Next Chapter →</a>
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch" for="checkbox">
+                        <input type="checkbox" id="checkbox" />
+                        <div class="slider round">
+                            <span class="icon sun">☀️</span>
+                            <span class="icon moon">🌙</span>
+                        </div>
+                    </label>
+                </div>
             </div>
         </div>
     </div>

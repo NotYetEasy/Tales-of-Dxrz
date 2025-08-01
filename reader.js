@@ -138,5 +138,132 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Event Listener for theme switch
     themeSwitch.addEventListener('change', toggleTheme);
 
+    // Volume Menu Functionality
+    let volumeMenuBtn = null;
+    let volumeDropdown = null;
+    let isVolumeMenuOpen = false;
+
+    // Initialize volume menu
+    function initializeVolumeMenu() {
+        volumeMenuBtn = document.getElementById('volume-menu-btn');
+        volumeDropdown = document.getElementById('volume-dropdown');
+
+        if (!volumeMenuBtn || !volumeDropdown) {
+            console.error('Volume menu elements not found');
+            return;
+        }
+
+        // Populate volume dropdown
+        populateVolumeDropdown();
+
+        // Set initial volume title
+        updateCurrentVolumeTitle();
+
+        // Event listeners
+        volumeMenuBtn.addEventListener('click', toggleVolumeMenu);
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!volumeMenuBtn.contains(e.target) && !volumeDropdown.contains(e.target)) {
+                closeVolumeMenu();
+            }
+        });
+
+        // Close dropdown on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isVolumeMenuOpen) {
+                closeVolumeMenu();
+            }
+        });
+    }
+
+    // Populate volume dropdown with available volumes
+    function populateVolumeDropdown() {
+        if (!novelsData || !novelsData.volumes) {
+            console.error('No volume data available');
+            return;
+        }
+
+        volumeDropdown.innerHTML = '';
+
+        novelsData.volumes.forEach((volume, index) => {
+            const option = document.createElement('button');
+            option.className = 'volume-option';
+            option.textContent = volume.title;
+            option.dataset.volumeIndex = index;
+
+            // Mark current volume as active
+            if (index === currentVolumeIndex) {
+                option.classList.add('active');
+            }
+
+            option.addEventListener('click', () => {
+                switchVolume(index);
+                closeVolumeMenu();
+            });
+
+            volumeDropdown.appendChild(option);
+        });
+    }
+
+    // Switch to a different volume
+    function switchVolume(volumeIndex) {
+        if (!novelsData || !novelsData.volumes[volumeIndex]) {
+            console.error('Invalid volume index:', volumeIndex);
+            return;
+        }
+
+        // Reset to first chapter of new volume
+        const newVolume = novelsData.volumes[volumeIndex];
+        if (newVolume.chapters && newVolume.chapters.length > 0) {
+            loadChapter(volumeIndex, 0);
+            updateCurrentVolumeTitle();
+            populateVolumeDropdown(); // Refresh active state
+        } else {
+            console.error('No chapters available in volume:', volumeIndex);
+            readerContent.innerHTML = '<p>No chapters available in this volume.</p>';
+        }
+    }
+
+    // Update the current volume title in the menu button
+    function updateCurrentVolumeTitle() {
+        if (!volumeMenuBtn || !novelsData || !novelsData.volumes[currentVolumeIndex]) {
+            return;
+        }
+
+        const currentVolume = novelsData.volumes[currentVolumeIndex];
+        const titleElement = volumeMenuBtn.querySelector('#current-volume-title');
+        if (titleElement) {
+            titleElement.textContent = currentVolume.title;
+        }
+    }
+
+    // Toggle volume menu open/close
+    function toggleVolumeMenu() {
+        isVolumeMenuOpen = !isVolumeMenuOpen;
+
+        if (isVolumeMenuOpen) {
+            volumeDropdown.style.display = 'block';
+            volumeMenuBtn.classList.add('active');
+            populateVolumeDropdown(); // Refresh in case data changed
+        } else {
+            closeVolumeMenu();
+        }
+    }
+
+    // Close volume menu
+    function closeVolumeMenu() {
+        isVolumeMenuOpen = false;
+        volumeDropdown.style.display = 'none';
+        volumeMenuBtn.classList.remove('active');
+    }
+
+    // Override initializeReader to include volume menu initialization
+    const originalInitializeReader = initializeReader;
+    initializeReader = async function () {
+        await originalInitializeReader();
+        initializeVolumeMenu();
+    };
+
     initializeReader();
 });
